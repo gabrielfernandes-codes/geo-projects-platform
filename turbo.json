@@ -1,0 +1,47 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env",
+    "**/.env.*.local"
+  ],
+  "tasks": {
+    "topo": {
+      "dependsOn": [
+        "^topo"
+      ],
+      "cache": true
+    },
+    "build": {
+      "dependsOn": [
+        "topo",
+        "^build"
+      ],
+      "cache": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!*.md"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "topo"
+      ],
+      "cache": true
+    },
+    "dev": {
+      "dependsOn": [
+        "topo"
+      ],
+      "cache": false
+    },
+    "format": {
+      "cache": true
+    },
+    "fix": {
+      "cache": true
+    }
+  }
+}

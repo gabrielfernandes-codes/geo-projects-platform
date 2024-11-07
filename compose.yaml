@@ -1,0 +1,30 @@
+services:
+  postgres:
+    build:
+      context: .
+      target: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    networks:
+      - platform-demo
+
+  cli:
+    build:
+      context: .
+      target: cli
+    environment:
+      - NODE_ENV=development
+    networks:
+      - platform-demo
+    volumes:
+      - .:/platform-demo
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /platform-demo
+
+networks:
+  platform-demo:
+    driver: bridge

@@ -1,1 +1,1 @@
-module.exports = require('@platform/prettier/prettier.config.js')
+module.exports = require('@platform/formatters/prettier.config')

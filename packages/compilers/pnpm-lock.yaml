@@ -5,10 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 importers:
-
   .:
     devDependencies:
-      '@platform/prettier':
+      '@platform/formatters':
         specifier: workspace:*
         version: link:../prettier
       prettier:
@@ -16,12 +15,11 @@ importers:
         version: 3.3.2
 
 packages:
-
   prettier@3.3.2:
-    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
-    engines: {node: '>=14'}
+    resolution:
+      { integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA== }
+    engines: { node: '>=14' }
     hasBin: true
 
 snapshots:
-
   prettier@3.3.2: {}

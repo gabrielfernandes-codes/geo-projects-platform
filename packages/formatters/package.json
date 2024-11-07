@@ -1,0 +1,16 @@
+{
+  "name": "@platform/formatters",
+  "private": true,
+  "bin": {
+    "prettier": "node_modules/.bin/prettier"
+  },
+  "exports": {
+    "./prettier.config": "./src/configs/prettier.config.js"
+  },
+  "scripts": {
+    "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}

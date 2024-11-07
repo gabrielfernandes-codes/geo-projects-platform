@@ -14,30 +14,39 @@ importers:
 
   packages/compilers:
     devDependencies:
-      '@platform/prettier':
+      '@platform/formatters':
         specifier: workspace:*
-        version: link:../prettier
+        version: link:../formatters
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  packages/formatters:
+    devDependencies:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
 
-  packages/eslint:
+  packages/linters:
     devDependencies:
-      '@platform/prettier':
+      '@platform/formatters':
         specifier: workspace:*
-        version: link:../prettier
+        version: link:../formatters
+      eslint:
+        specifier: ^9.14.0
+        version: 9.14.0(jiti@1.21.6)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.14.0(jiti@1.21.6))
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
-
-  packages/prettier:
-    devDependencies:
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
+      eslint-config-turbo:
+        specifier: ^1.13.4
+        version: 1.13.4(eslint@9.14.0(jiti@1.21.6))
+      eslint-plugin-security:
+        specifier: ^1.7.1
+        version: 1.7.1
 
   services/api:
     dependencies:
@@ -66,11 +75,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       '@sinclair/typebox':
-        specifier: ^0.33.19
-        version: 0.33.19
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
+        specifier: ^0.33.21
+        version: 0.33.21
       fastify:
         specifier: ^5.1.0
         version: 5.1.0
@@ -84,30 +90,18 @@ importers:
       '@platform/compilers':
         specifier: workspace:*
         version: link:../../packages/compilers
-      '@platform/eslint':
+      '@platform/formatters':
         specifier: workspace:*
-        version: link:../../packages/eslint
-      '@platform/prettier':
+        version: link:../../packages/formatters
+      '@platform/linters':
         specifier: workspace:*
-        version: link:../../packages/prettier
+        version: link:../../packages/linters
       '@types/node':
         specifier: ^22.9.0
         version: 22.9.0
-      eslint:
-        specifier: ^9.14.0
-        version: 9.14.0(jiti@1.21.6)
       pino-pretty:
         specifier: ^11.3.0
         version: 11.3.0
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
-      tsx:
-        specifier: ^4.19.2
-        version: 4.19.2
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
 
 packages:
 
@@ -362,8 +356,8 @@ packages:
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
     engines: {node: '>=8'}
 
-  '@sinclair/typebox@0.33.19':
-    resolution: {integrity: sha512-vcnWVOoa+HROcI+3FTyibfo+Sw0KytEpJf1Cm78l4Fn3w0pqHG6tx6+HCBs7eYOUhSUtwVTMzh0tzU7gom9Zpg==}
+  '@sinclair/typebox@0.33.21':
+    resolution: {integrity: sha512-1wU0VNSZQt13BmJvxYhHRVwDBnG8y5qrcyi3DnmEQzvfeRycUNneQSd6quyxrNbspM1pV/m4r4udO6o1tCuXjg==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -481,8 +475,8 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
+  cross-spawn@7.0.5:
+    resolution: {integrity: sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==}
     engines: {node: '>= 8'}
 
   dateformat@4.6.3:
@@ -510,6 +504,10 @@ packages:
 
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
+
+  dotenv@16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
 
   dotenv@16.4.5:
@@ -554,6 +552,19 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+
+  eslint-config-turbo@1.13.4:
+    resolution: {integrity: sha512-+we4eWdZlmlEn7LnhXHCIPX/wtujbHCS7XjQM/TN09BHNEl2fZ8id4rHfdfUKIYTSKyy8U/nNyJ0DNoZj5Q8bw==}
+    peerDependencies:
+      eslint: '>6.6.0'
+
+  eslint-plugin-security@1.7.1:
+    resolution: {integrity: sha512-sMStceig8AFglhhT2LqlU5r+/fn9OwsA72O5bBuQVTssPCdQAOQzL+oMn/ZcpeUY6KcNfLJArgcrsSULNjYYdQ==}
+
+  eslint-plugin-turbo@1.13.4:
+    resolution: {integrity: sha512-82GfMzrewI/DJB92Bbch239GWbGx4j1zvjk1lqb06lxIlMPnVwUHVwPbAnLfyLG3JuhLv9whxGkO/q1CL18JTg==}
+    peerDependencies:
+      eslint: '>6.6.0'
 
   eslint-scope@8.2.0:
     resolution: {integrity: sha512-PHlWUfG6lvPc3yvP5A4PNyBL1W8fkDUccmI21JUu/+GKZBoH/W5u6usENXUrWFRsyoW5ACUjFGgAFQp5gUlb/A==}
@@ -963,6 +974,10 @@ packages:
     resolution: {integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==}
     engines: {node: '>= 12.13.0'}
 
+  regexp-tree@0.1.27:
+    resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
+    hasBin: true
+
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
@@ -993,6 +1008,9 @@ packages:
 
   safe-regex2@4.0.0:
     resolution: {integrity: sha512-Hvjfv25jPDVr3U+4LDzBuZPPOymELG3PYcSk5hcevooo1yxxamQL/bHs/GrEPGmMoMEwRrHVGiCA1pXi97B8Ew==}
+
+  safe-regex@2.1.1:
+    resolution: {integrity: sha512-rx+x8AMzKb5Q5lQ95Zoi6ZbJqwCLkqi3XuJXp5P3rT8OEc6sZCJG5AE5dU3lsgRr/F4Bs31jSlVN+j5KrsGu9A==}
 
   safe-stable-stringify@2.5.0:
     resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
@@ -1415,7 +1433,7 @@ snapshots:
 
   '@lukeed/ms@2.0.2': {}
 
-  '@sinclair/typebox@0.33.19': {}
+  '@sinclair/typebox@0.33.21': {}
 
   '@types/estree@1.0.6': {}
 
@@ -1519,7 +1537,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cross-spawn@7.0.3:
+  cross-spawn@7.0.5:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -1538,6 +1556,8 @@ snapshots:
   dequal@2.0.3: {}
 
   dotenv-expand@10.0.0: {}
+
+  dotenv@16.0.3: {}
 
   dotenv@16.4.5: {}
 
@@ -1606,6 +1626,20 @@ snapshots:
     dependencies:
       eslint: 9.14.0(jiti@1.21.6)
 
+  eslint-config-turbo@1.13.4(eslint@9.14.0(jiti@1.21.6)):
+    dependencies:
+      eslint: 9.14.0(jiti@1.21.6)
+      eslint-plugin-turbo: 1.13.4(eslint@9.14.0(jiti@1.21.6))
+
+  eslint-plugin-security@1.7.1:
+    dependencies:
+      safe-regex: 2.1.1
+
+  eslint-plugin-turbo@1.13.4(eslint@9.14.0(jiti@1.21.6)):
+    dependencies:
+      dotenv: 16.0.3
+      eslint: 9.14.0(jiti@1.21.6)
+
   eslint-scope@8.2.0:
     dependencies:
       esrecurse: 4.3.0
@@ -1631,7 +1665,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       chalk: 4.1.2
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.5
       debug: 4.3.7
       escape-string-regexp: 4.0.0
       eslint-scope: 8.2.0
@@ -1759,7 +1793,7 @@ snapshots:
 
   foreground-child@3.3.0:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.5
       signal-exit: 4.1.0
 
   forwarded@0.2.0: {}
@@ -2056,6 +2090,8 @@ snapshots:
 
   real-require@0.2.0: {}
 
+  regexp-tree@0.1.27: {}
+
   require-from-string@2.0.2: {}
 
   resolve-from@4.0.0: {}
@@ -2075,6 +2111,10 @@ snapshots:
   safe-regex2@4.0.0:
     dependencies:
       ret: 0.5.0
+
+  safe-regex@2.1.1:
+    dependencies:
+      regexp-tree: 0.1.27
 
   safe-stable-stringify@2.5.0: {}
 

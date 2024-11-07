@@ -1,11 +1,20 @@
 {
   "name": "@platform/compilers",
   "private": true,
+  "bin": {
+    "tsx": "node_modules/.bin/tsx",
+    "tsc": "node_modules/.bin/tsc"
+  },
+  "exports": {
+    "./node-library.config": "./src/configs/node-library.config.json",
+    "./node-service.config": "./src/configs/node-service.config.json"
+  },
   "scripts": {
-    "format": "prettier \"**/*\" --write --ignore-unknown --log-level error"
+    "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error"
   },
   "devDependencies": {
-    "@platform/prettier": "workspace:*",
-    "prettier": "^3.3.3"
+    "@platform/formatters": "workspace:*",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

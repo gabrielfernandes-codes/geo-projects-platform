@@ -1,1 +1,1 @@
-module.exports = require('@platform/eslint/node-service')
+module.exports = require('@platform/linters/node-service.config')

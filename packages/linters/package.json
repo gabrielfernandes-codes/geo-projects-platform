@@ -1,0 +1,21 @@
+{
+  "name": "@platform/linters",
+  "private": true,
+  "bin": {
+    "eslint": "node_modules/.bin/eslint"
+  },
+  "exports": {
+    "./node-library.config": "./src/configs/node-library.config.js",
+    "./node-service.config": "./src/configs/node-service.config.js"
+  },
+  "scripts": {
+    "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error"
+  },
+  "devDependencies": {
+    "@platform/formatters": "workspace:*",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-turbo": "^1.13.4",
+    "eslint-plugin-security": "^1.7.1"
+  }
+}

@@ -11,8 +11,8 @@
     "inlineSources": false,
     "isolatedModules": true,
     "lib": ["ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "newLine": "lf",
     "noEmit": true,
     "noEmitOnError": true,
@@ -28,6 +28,6 @@
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ESNext"
+    "target": "ES5"
   }
 }

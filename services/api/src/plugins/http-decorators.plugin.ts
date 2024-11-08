@@ -3,6 +3,15 @@ import type { FastifyInstance, FastifyReply } from 'fastify'
 import FastifyHttpDecorators from '@fastify/sensible'
 import FastifyPlugin from 'fastify-plugin'
 
+declare module 'fastify' {
+  export interface FastifyReply {
+    noContent: () => FastifyReply
+    ok: (data: object | object[]) => FastifyReply
+    created: (data: object | object[]) => FastifyReply
+    dataConflict: (data: object | object[]) => FastifyReply
+  }
+}
+
 export const loadHttpDecoratorsPlugin = FastifyPlugin(async function plugin(instance: FastifyInstance): Promise<void> {
   void instance.register(FastifyHttpDecorators)
 

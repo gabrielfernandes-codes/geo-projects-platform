@@ -5,7 +5,14 @@ import { loadRequestCorsPlugin } from '../../plugins/request-cors.plugin'
 import { loadResponseCompressPlugin } from '../../plugins/response-compress.plugin'
 import { loadResponseHeadersPlugin } from '../../plugins/response-headers.plugin'
 
+import { DatabaseManager, ProjectRepository, ProjectService } from '@platform/domains'
 import { basePath, routes } from './routes'
+
+declare module 'fastify' {
+  export interface FastifyInstance {
+    projectService: ProjectService
+  }
+}
 
 export const module = {
   callback: (instance: FastifyInstance) => {
@@ -14,6 +21,13 @@ export const module = {
     void instance.register(loadHttpDecoratorsPlugin)
     void instance.register(loadResponseHeadersPlugin)
     void instance.register(routes)
+
+    const databaseManager = new DatabaseManager(instance.envs.POSTGRES_DSN)
+
+    const projectRepository = new ProjectRepository(databaseManager)
+    const projectService = new ProjectService(projectRepository)
+
+    void instance.decorate('projectService', projectService)
   },
   options: { prefix: basePath },
 }

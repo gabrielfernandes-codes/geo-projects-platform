@@ -1,4 +1,3 @@
-export const createProjectResponseMock = {
-  id: '00000000-0000-0000-0000-000000000000',
-  name: 'Project name',
-}
+import { completeProjectMock } from '@platform/domains'
+
+export const createProjectResponseMock = completeProjectMock

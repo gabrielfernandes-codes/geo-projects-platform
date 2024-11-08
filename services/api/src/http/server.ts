@@ -34,7 +34,6 @@ export async function createStatefulServer(port: number = 3000, host: string = '
       try {
         await instance.close()
 
-        console.log('Server closed')
         process.exit(0)
       } catch (error) {
         console.error('Error during shutdown', error)

@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 
+import { isAuthorized } from '../../http/middlewares/authorization.middleware'
 import { handler as createProjectsHandler } from './handlers/createProject.handler'
 import { handler as retrieveProjectHandler } from './handlers/retrieveProject.handler'
 import { schema as createProjectPayloadSchema } from './schemas/createProjectPayload.schema'
@@ -20,6 +21,7 @@ export async function routes(instance: FastifyInstance): Promise<void> {
       },
     },
     handler: createProjectsHandler,
+    preParsing: [isAuthorized],
   })
 
   void instance.route({
@@ -32,5 +34,6 @@ export async function routes(instance: FastifyInstance): Promise<void> {
       },
     },
     handler: retrieveProjectHandler,
+    preParsing: [isAuthorized],
   })
 }

@@ -11,16 +11,20 @@
     "build": "tsc --allowImportingTsExtensions false --noEmit false",
     "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error",
     "lint": "eslint .",
-    "fix": "eslint --fix ."
+    "fix": "eslint --fix .",
+    "migration:generate": "drizzle-kit generate",
+    "migration:run": "drizzle-kit migrate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.3",
-    "drizzle-orm": "^0.36.1"
+    "drizzle-orm": "^0.36.1",
+    "postgres": "^3.4.5"
   },
   "devDependencies": {
     "@platform/compilers": "workspace:*",
     "@platform/formatters": "workspace:*",
     "@platform/linters": "workspace:*",
+    "@types/node": "^22.9.0",
     "drizzle-kit": "^0.28.0",
     "prettier": "^3.3.3"
   }

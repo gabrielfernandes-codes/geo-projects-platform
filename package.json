@@ -1,5 +1,5 @@
 {
-  "name": "platform-demo",
+  "name": "geo-projects-platform",
   "private": true,
   "packageManager": "pnpm@9.12.0",
   "engines": {

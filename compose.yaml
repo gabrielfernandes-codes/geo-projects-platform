@@ -3,11 +3,14 @@ services:
     build:
       context: .
       target: postgres
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secrect
+      - POSTGRES_DB=geo-projects-platform
     networks:
-      - platform-demo
+      - geo-projects-platform
 
   cli:
     build:
@@ -16,15 +19,15 @@ services:
     environment:
       - NODE_ENV=development
     networks:
-      - platform-demo
+      - geo-projects-platform
     volumes:
-      - .:/platform-demo
+      - .:/geo-projects-platform
     develop:
       watch:
         - action: sync
           path: .
-          target: /platform-demo
+          target: /geo-projects-platform
 
 networks:
-  platform-demo:
+  geo-projects-platform:
     driver: bridge

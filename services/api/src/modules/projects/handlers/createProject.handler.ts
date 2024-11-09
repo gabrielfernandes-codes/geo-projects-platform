@@ -3,11 +3,15 @@ import type { RouteHandler } from 'fastify'
 import type { CreateProjectPayload } from '../schemas/createProjectPayload.schema'
 
 export const handler: RouteHandler<{
-  Params: unknown
-  Querystring: unknown
   Body: CreateProjectPayload
-}> = async function (_, reply) {
-  const project = this.projectService.createProject()
+}> = async function (request, reply) {
+  try {
+    const project = await this.projectService.createProject({
+      name: request.body.name,
+    })
 
-  return reply.created(project)
+    return reply.created(project)
+  } catch (error) {
+    throw reply.internalServerError()
+  }
 }

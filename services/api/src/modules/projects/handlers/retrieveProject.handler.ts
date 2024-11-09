@@ -1,9 +1,20 @@
 import type { RouteHandler } from 'fastify'
 
-export const handler: RouteHandler<{
-  Params: unknown
-}> = async function (_, reply) {
-  const project = this.projectService.getProject()
+import { RetrieveProjectParameters } from '../schemas/retrieveProjectParameters.schema'
+import { ProjectNotFoundException } from '@platform/domains'
 
-  return reply.ok(project)
+export const handler: RouteHandler<{
+  Params: RetrieveProjectParameters
+}> = async function (request, reply) {
+  try {
+    const project = await this.projectService.getProject(request.params.projectId)
+
+    return reply.ok(project)
+  } catch (error) {
+    if (error instanceof ProjectNotFoundException) {
+      throw reply.notFound(ProjectNotFoundException.message)
+    }
+
+    throw reply.internalServerError()
+  }
 }

@@ -6,6 +6,7 @@ import { handler as retrieveProjectHandler } from './handlers/retrieveProject.ha
 import { schema as createProjectPayloadSchema } from './schemas/createProjectPayload.schema'
 import { schema as createProjectResponseSchema } from './schemas/createProjectResponse.schema'
 import { schema as retrieveProjectResponseSchema } from './schemas/retrieveProjectResponse.schema'
+import { schema as retrieveProjectParametersSchema } from './schemas/retrieveProjectParameters.schema'
 
 export const basePath = '/v1/projects'
 
@@ -29,6 +30,7 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId',
     schema: {
       tags: ['Projects'],
+      params: retrieveProjectParametersSchema,
       response: {
         200: retrieveProjectResponseSchema,
       },

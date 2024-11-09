@@ -5,6 +5,13 @@ ARG POSTGRES_VERSION=17.0
 
 FROM postgres:${POSTGRES_VERSION} AS postgres-baseline
 
+RUN set -x \
+  && apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install \
+  curl \
+  postgis \
+  -y
 
 # ---------------- node-baseline --------------- #
 
@@ -17,12 +24,13 @@ ENV CHOKIDAR_USEPOLLING true
 ENV NODE_ENV $NODE_ENV
 
 RUN set -x \
-  && mkdir -p /platform-demo
+  && mkdir -p /geo-projects-platform
 
 RUN set -x \
   && apt-get update \
   && apt-get upgrade -y \
   && apt-get install \
+  curl \
   zip \
   wget \
   git \
@@ -40,7 +48,7 @@ RUN set -x \
 
 FROM node-baseline AS step-deps
 
-WORKDIR /platform-demo
+WORKDIR /geo-projects-platform
 
 COPY package*.json .
 
@@ -57,11 +65,11 @@ RUN ls -la
 
 FROM node-baseline AS step-app
 
-WORKDIR /platform-demo
+WORKDIR /geo-projects-platform
 
 COPY . .
 
-COPY --from=step-deps /platform-demo/node_modules .
+COPY --from=step-deps /geo-projects-platform/node_modules .
 
 
 # ----------------- postgres ------------------- #
@@ -73,8 +81,8 @@ FROM postgres-baseline AS postgres
 
 FROM node-baseline AS cli
 
-WORKDIR /platform-demo
+WORKDIR /geo-projects-platform
 
-COPY --from=step-app /platform-demo .
+COPY --from=step-app /geo-projects-platform .
 
 CMD ["bash"]

@@ -16,15 +16,15 @@
     "migration:run": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.3",
     "drizzle-orm": "^0.36.1",
-    "postgres": "^3.4.5"
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@platform/compilers": "workspace:*",
     "@platform/formatters": "workspace:*",
     "@platform/linters": "workspace:*",
     "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.28.0",
     "prettier": "^3.3.3"
   }

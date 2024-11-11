@@ -18,4 +18,5 @@ module.exports = drizzleKit.defineConfig({
   dbCredentials: {
     url: process.env.POSTGRES_DSN,
   },
+  extensionsFilters: ['postgis'],
 })

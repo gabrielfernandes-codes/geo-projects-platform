@@ -1,5 +1,5 @@
-import { neon } from '@neondatabase/serverless'
-import { drizzle } from 'drizzle-orm/neon-http'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
 
 export class DatabaseFactory {
   private static instances: Map<string, ReturnType<typeof drizzle>> = new Map()
@@ -9,8 +9,10 @@ export class DatabaseFactory {
       return this.instances.get(dsn)!
     }
 
-    const client = neon(dsn)
-    const instance = drizzle({ client })
+    const pool = new Pool({
+      connectionString: dsn,
+    })
+    const instance = drizzle({ client: pool })
 
     this.instances.set(dsn, instance)
 

@@ -14,11 +14,13 @@
     "fix": "eslint --fix ."
   },
   "dependencies": {
-    "@platform/neon": "workspace:*"
+    "@platform/neon": "workspace:*",
+    "geojson": "^0.5.0"
   },
   "devDependencies": {
     "@platform/compilers": "workspace:*",
     "@platform/formatters": "workspace:*",
-    "@platform/linters": "workspace:*"
+    "@platform/linters": "workspace:*",
+    "@types/geojson": "^7946.0.14"
   }
 }

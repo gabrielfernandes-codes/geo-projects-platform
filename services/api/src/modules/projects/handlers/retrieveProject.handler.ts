@@ -7,7 +7,7 @@ export const handler: RouteHandler<{
   Params: RetrieveProjectParameters
 }> = async function (request, reply) {
   try {
-    const project = await this.projectService.getProject(request.params.projectId)
+    const project = await this.projectsService.getProject(request.params.projectId)
 
     return reply.ok(project)
   } catch (error) {

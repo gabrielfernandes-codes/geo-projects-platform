@@ -6,7 +6,7 @@ export const handler: RouteHandler<{
   Body: CreateProjectPayload
 }> = async function (request, reply) {
   try {
-    const project = await this.projectService.createProject({
+    const project = await this.projectsService.createProject({
       name: request.body.name,
     })
 

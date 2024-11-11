@@ -1,3 +1,4 @@
+import { DatabaseManager, ProjectsRepository, ProjectsService } from '@platform/domains'
 import type { FastifyInstance } from 'fastify'
 
 import { loadHttpDecoratorsPlugin } from '../../plugins/http-decorators.plugin'
@@ -5,12 +6,11 @@ import { loadRequestCorsPlugin } from '../../plugins/request-cors.plugin'
 import { loadResponseCompressPlugin } from '../../plugins/response-compress.plugin'
 import { loadResponseHeadersPlugin } from '../../plugins/response-headers.plugin'
 
-import { DatabaseManager, ProjectRepository, ProjectService } from '@platform/domains'
 import { basePath, routes } from './routes'
 
 declare module 'fastify' {
   export interface FastifyInstance {
-    projectService: ProjectService
+    projectsService: ProjectsService
   }
 }
 
@@ -24,10 +24,11 @@ export const module = {
 
     const databaseManager = new DatabaseManager(instance.envs.POSTGRES_DSN)
 
-    const projectRepository = new ProjectRepository(databaseManager)
-    const projectService = new ProjectService(projectRepository)
+    const projectsRepository = new ProjectsRepository(databaseManager)
 
-    void instance.decorate('projectService', projectService)
+    const projectsService = new ProjectsService(projectsRepository)
+
+    void instance.decorate('projectsService', projectsService)
   },
   options: { prefix: basePath },
 }

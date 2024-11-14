@@ -15,7 +15,7 @@
     "@platform/formatters": "workspace:*",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-turbo": "^1.13.4",
-    "eslint-plugin-security": "^1.7.1"
+    "eslint-config-turbo": "^2.2.3",
+    "eslint-plugin-security": "^3.0.1"
   }
 }

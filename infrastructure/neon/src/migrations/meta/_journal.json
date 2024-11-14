@@ -15,6 +15,13 @@
       "when": 1731111248140,
       "tag": "20241109001408_init_projects_table",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1731285569555,
+      "tag": "20241111003929_refactor_projects_plot_table",
+      "breakpoints": false
     }
   ]
 }

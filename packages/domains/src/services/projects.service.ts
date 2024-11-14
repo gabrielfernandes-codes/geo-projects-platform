@@ -1,4 +1,4 @@
-import { ProjectBaseInsertDto } from '../dtos/project.dto'
+import { ProjectBaseInsertDto } from '../dtos/projects.dto'
 import { Project } from '../entities/project.entity'
 import { ProjectNotFoundException } from '../exceptions/project-not-found.exception'
 import { UnableCreateProjectException } from '../exceptions/unable-create-project.exception'

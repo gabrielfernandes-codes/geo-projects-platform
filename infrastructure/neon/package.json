@@ -16,7 +16,7 @@
     "migration:run": "drizzle-kit migrate"
   },
   "dependencies": {
-    "drizzle-orm": "^0.36.1",
+    "drizzle-orm": "^0.36.2",
     "pg": "^8.13.1"
   },
   "devDependencies": {
@@ -25,7 +25,7 @@
     "@platform/linters": "workspace:*",
     "@types/node": "^22.9.0",
     "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.28.0",
+    "drizzle-kit": "^0.28.1",
     "prettier": "^3.3.3"
   }
 }

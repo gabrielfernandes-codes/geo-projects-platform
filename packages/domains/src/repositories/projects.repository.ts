@@ -1,6 +1,6 @@
 import { eq, projectsTable } from '@platform/neon'
 
-import { ProjectBaseInsertDto } from '../dtos/project.dto'
+import { ProjectBaseInsertDto } from '../dtos/projects.dto'
 import { Project, projectSelect } from '../entities/project.entity'
 import { AbstractRepository } from './abstract.repository'
 

@@ -1,12 +1,12 @@
 import { eq, projectsTable } from '@platform/neon'
 
 import { ProjectBaseInsertDto } from '../dtos/project.dto'
-import { Project } from '../entities/project.entity'
+import { Project, projectSelect } from '../entities/project.entity'
 import { AbstractRepository } from './abstract.repository'
 
 export class ProjectsRepository extends AbstractRepository {
   public async insert(data: ProjectBaseInsertDto): Promise<Project> {
-    const [project] = await this.entityManager.insert(projectsTable).values(data).returning()
+    const [project] = await this.entityManager.insert(projectsTable).values(data).returning(projectSelect)
 
     if (!project) {
       throw new Error('Failed to insert project')
@@ -16,7 +16,11 @@ export class ProjectsRepository extends AbstractRepository {
   }
 
   public async find(id: string): Promise<Project | null> {
-    const [project] = await this.entityManager.select().from(projectsTable).where(eq(projectsTable.id, id)).limit(1)
+    const [project] = await this.entityManager
+      .select(projectSelect)
+      .from(projectsTable)
+      .where(eq(projectsTable.id, id))
+      .limit(1)
 
     if (!project) {
       return null

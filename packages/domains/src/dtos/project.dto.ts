@@ -1,3 +1,5 @@
-import { projectsTable } from '@platform/neon'
+import { Project } from '../entities/project.entity'
 
-export type ProjectBaseInsertDto = typeof projectsTable.$inferInsert
+export type ProjectBaseInsertDto = {
+  name: Project['name']
+}

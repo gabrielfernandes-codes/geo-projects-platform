@@ -1,7 +1,7 @@
-import { sql } from 'drizzle-orm'
-import { pgTable, uuid, varchar, timestamp } from 'drizzle-orm/pg-core'
+import { getTableColumns, sql } from 'drizzle-orm'
+import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 
-const onUpdatedAt = () => new Date()
+import { onUpdateCallback } from '../utils/operations.util'
 
 export const projectsTable = pgTable('projects', {
   id: uuid('id')
@@ -9,5 +9,7 @@ export const projectsTable = pgTable('projects', {
     .primaryKey(),
   name: varchar('name', { length: 255 }).notNull(),
   createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow().$onUpdate(onUpdatedAt),
+  updatedAt: timestamp('updated_at').defaultNow().$onUpdate(onUpdateCallback),
 })
+
+export const projectTableColumns = getTableColumns(projectsTable)

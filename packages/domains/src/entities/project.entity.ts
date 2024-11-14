@@ -1,3 +1,8 @@
-import { projectsTable } from '@platform/neon'
+import { projectTableColumns, InferModelFromColumns } from '@platform/neon'
 
-export type Project = typeof projectsTable.$inferSelect
+export const projectSelect = {
+  id: projectTableColumns.id,
+  name: projectTableColumns.name,
+}
+
+export type Project = InferModelFromColumns<typeof projectSelect>

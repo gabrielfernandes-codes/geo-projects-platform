@@ -17,7 +17,8 @@ export class ProjectsPlateausRepository extends AbstractRepository {
       for (const feature of data.collection.features) {
         await trx.insert(projectsPlateausTable).values({
           projectId,
-          polygon: sql`ST_SetSRID(ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)}), 4326)::geography`,
+          geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)}), 4326)::geography`,
+          properties: feature.properties,
         })
       }
 
@@ -31,8 +32,8 @@ export class ProjectsPlateausRepository extends AbstractRepository {
           type: featureCollectionSchema.properties.type.const,
           features: records.map((record) => ({
             type: featureCollectionSchema.properties.features.items.properties.type.const,
-            properties: {},
-            geometry: record.polygon,
+            geometry: record.geometry,
+            properties: record.properties,
           })),
         },
       }
@@ -52,10 +53,10 @@ export class ProjectsPlateausRepository extends AbstractRepository {
         type: featureCollectionSchema.properties.type.const,
         features: records.map((record) => ({
           type: featureCollectionSchema.properties.features.items.properties.type.const,
-          properties: {},
-          geometry: record.polygon,
+          geometry: record.geometry,
+          properties: record.properties,
         })),
       },
-    }
+    } as ProjectPlateaus
   }
 }

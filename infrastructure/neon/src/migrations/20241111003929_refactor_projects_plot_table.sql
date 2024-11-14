@@ -2,7 +2,7 @@ CREATE TABLE
   IF NOT EXISTS "projects_limits" (
     "id" uuid PRIMARY KEY DEFAULT uuid_generate_v7 () NOT NULL,
     "project_id" uuid NOT NULL,
-    "polygon" geography(Polygon) NOT NULL,
+    "polygon" geography (Polygon) NOT NULL,
     "created_at" timestamp DEFAULT now (),
     "updated_at" timestamp DEFAULT now ()
   );
@@ -11,7 +11,7 @@ CREATE TABLE
   IF NOT EXISTS "projects_plateaus" (
     "id" uuid PRIMARY KEY DEFAULT uuid_generate_v7 () NOT NULL,
     "project_id" uuid NOT NULL,
-    "polygon" geography(Polygon) NOT NULL,
+    "polygon" geography (Polygon) NOT NULL,
     "created_at" timestamp DEFAULT now (),
     "updated_at" timestamp DEFAULT now ()
   );

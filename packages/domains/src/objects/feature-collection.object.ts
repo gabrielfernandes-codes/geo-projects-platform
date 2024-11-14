@@ -22,7 +22,7 @@ export const featureCollectionSchema = Type.Object({
           }),
           Type.Object({
             type: Type.Literal('Polygon'),
-            coordinates: Type.Array(Type.Array(Type.Tuple([Type.Number(), Type.Number()], { minItems: 4 }))),
+            coordinates: Type.Array(Type.Array(Type.Tuple([Type.Number(), Type.Number()], { minItems: 3 }))),
           }),
         ]),
         Type.Null(),

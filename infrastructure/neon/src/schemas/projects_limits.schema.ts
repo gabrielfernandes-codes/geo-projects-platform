@@ -1,5 +1,6 @@
 import { getTableColumns, sql } from 'drizzle-orm'
-import { index, pgTable, timestamp, uuid, jsonb } from 'drizzle-orm/pg-core'
+import { index, jsonb, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { createInsertSchema, createSelectSchema } from 'drizzle-typebox'
 
 import { geography } from '../migrations/columns/geography.column'
 import { onUpdateCallback } from '../utils/operations.util'
@@ -25,3 +26,7 @@ export const projectsLimitsTable = pgTable(
 )
 
 export const projectsLimitsTableColumns = getTableColumns(projectsLimitsTable)
+
+export const insertProjectsLimitsSchema = createInsertSchema(projectsLimitsTable)
+
+export const selectProjectsLimitsSchema = createSelectSchema(projectsLimitsTable)

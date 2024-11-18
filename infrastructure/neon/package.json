@@ -16,7 +16,9 @@
     "migration:run": "drizzle-kit migrate"
   },
   "dependencies": {
-    "drizzle-orm": "^0.36.2",
+    "@sinclair/typebox": "^0.34.3",
+    "drizzle-orm": "^0.36.3",
+    "drizzle-typebox": "^0.1.1",
     "pg": "^8.13.1"
   },
   "devDependencies": {

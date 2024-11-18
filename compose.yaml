@@ -1,8 +1,8 @@
 services:
-  postgres:
+  database-postgres:
     build:
       context: .
-      target: postgres
+      target: database-postgres
     ports:
       - "5432:5432"
     environment:
@@ -11,6 +11,21 @@ services:
       - POSTGRES_DB=geo-projects-platform
     networks:
       - geo-projects-platform
+
+  service-api:
+    build:
+      context: .
+      target: app-service-api
+    environment:
+      - NODE_ENV=development
+    networks:
+      - geo-projects-platform
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/geo-projects-platform
+    env_file:
+      - .env
 
   cli:
     build:
@@ -27,6 +42,8 @@ services:
         - action: sync
           path: .
           target: /geo-projects-platform
+    env_file:
+      - .env
 
 networks:
   geo-projects-platform:

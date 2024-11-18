@@ -20,7 +20,7 @@ export const handler: RouteHandler<{
 
   try {
     const projectLimits = await this.projectsLimitsService.updateLimits(request.params.projectId, {
-      collection: request.body.collection,
+      geometries: request.body.geometries,
     })
 
     return reply.ok(projectLimits)

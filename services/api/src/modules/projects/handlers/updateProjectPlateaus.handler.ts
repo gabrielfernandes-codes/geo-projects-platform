@@ -20,7 +20,7 @@ export const handler: RouteHandler<{
 
   try {
     const projectPlateaus = await this.projectsPlateausService.updatePlateaus(request.params.projectId, {
-      collection: request.body.collection,
+      geometries: request.body.geometries,
     })
 
     return reply.ok(projectPlateaus)

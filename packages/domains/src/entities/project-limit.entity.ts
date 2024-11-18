@@ -12,4 +12,4 @@ export type ProjectLimit = InferModelFromColumns<Omit<typeof projectLimitSelect,
   geometry: Polygon
 }
 
-export type ProjectLimits = { collection: FeatureCollection }
+export type ProjectLimits = { geometries: FeatureCollection }

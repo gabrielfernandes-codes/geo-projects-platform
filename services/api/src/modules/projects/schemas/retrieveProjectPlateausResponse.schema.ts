@@ -3,7 +3,7 @@ import { Static, Type } from '@sinclair/typebox'
 
 export const schema = Type.Object({
   data: Type.Object({
-    collection: featureCollectionSchema,
+    geometries: featureCollectionSchema,
   }),
 })
 

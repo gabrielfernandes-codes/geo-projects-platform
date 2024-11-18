@@ -1,7 +1,7 @@
 import { ProjectLimits } from '../entities/project-limit.entity'
 
 export const completeProjectLimitMock: ProjectLimits = {
-  collection: {
+  geometries: {
     type: 'FeatureCollection',
     features: [
       {

@@ -12,4 +12,4 @@ export type ProjectPlateau = InferModelFromColumns<Omit<typeof projectPlateauSel
   geometry: Polygon
 }
 
-export type ProjectPlateaus = { collection: FeatureCollection }
+export type ProjectPlateaus = { geometries: FeatureCollection }

@@ -1,3 +1,3 @@
 import { ProjectLimits } from '../entities/project-limit.entity'
 
-export type ProjectLimitsBaseInsertDto = { collection: ProjectLimits['collection'] }
+export type ProjectLimitsBaseInsertDto = { geometries: ProjectLimits['geometries'] }

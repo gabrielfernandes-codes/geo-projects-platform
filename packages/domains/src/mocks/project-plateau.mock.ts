@@ -1,7 +1,7 @@
 import { ProjectPlateaus } from '../entities/project-plateau.entity'
 
 export const completeProjectPlateausMock: ProjectPlateaus = {
-  collection: {
+  geometries: {
     type: 'FeatureCollection',
     features: [
       {

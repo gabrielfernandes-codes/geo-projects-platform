@@ -14,7 +14,7 @@ export class ProjectsPlateausRepository extends AbstractRepository {
 
       await trx.delete(projectsPlateausTable).where(eq(projectsPlateausTable.projectId, projectId))
 
-      for (const feature of data.collection.features) {
+      for (const feature of data.geometries.features) {
         await trx.insert(projectsPlateausTable).values({
           projectId,
           geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)}), 4326)::geography`,
@@ -28,7 +28,7 @@ export class ProjectsPlateausRepository extends AbstractRepository {
         .where(eq(projectsPlateausTable.projectId, projectId))
 
       return {
-        collection: {
+        geometries: {
           type: featureCollectionSchema.properties.type.const,
           features: records.map((record) => ({
             type: featureCollectionSchema.properties.features.items.properties.type.const,
@@ -49,7 +49,7 @@ export class ProjectsPlateausRepository extends AbstractRepository {
       .where(eq(projectsPlateausTable.projectId, projectId))
 
     return {
-      collection: {
+      geometries: {
         type: featureCollectionSchema.properties.type.const,
         features: records.map((record) => ({
           type: featureCollectionSchema.properties.features.items.properties.type.const,

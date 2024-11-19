@@ -66,7 +66,7 @@ jobs:
 
       - id: prepare-deploy-cli
         name: Prepare Flyctl
-        uses: superfly/flyctl-actions/setup-flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
 
       - id: run-deploy
         name: Run Deploy

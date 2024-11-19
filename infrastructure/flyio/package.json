@@ -1,0 +1,13 @@
+{
+  "name": "@platform/flyio",
+  "private": true,
+  "exports": {
+    "./prod.config": "./src/configs/prod.config.js"
+  },
+  "scripts": {
+    "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error"
+  },
+  "devDependencies": {
+    "@platform/formatters": "workspace:*"
+  }
+}

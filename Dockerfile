@@ -5,6 +5,8 @@ ARG POSTGRES_VERSION=17.0
 
 FROM postgres:${POSTGRES_VERSION} AS postgres-baseline
 
+WORKDIR /
+
 RUN set -x \
   && apt-get update \
   && apt-get upgrade -y \
@@ -20,6 +22,8 @@ ARG NODE_ENV=production
 
 ENV CHOKIDAR_USEPOLLING=true
 ENV NODE_ENV=$NODE_ENV
+
+WORKDIR /
 
 RUN set -x \
   && mkdir -p /geo-projects-platform
@@ -65,15 +69,24 @@ COPY --from=step-deps /geo-projects-platform/node_modules .
 
 FROM node-baseline AS cli
 
+ENV PATH="/root/.fly/bin:$PATH"
+
+WORKDIR /
+
+RUN set -x \
+  && curl -L https://fly.io/install.sh | ash
+
 WORKDIR /geo-projects-platform
 
 COPY --from=step-app /geo-projects-platform .
 
-CMD ["bash"]
+CMD ["ash"]
 
 # ------------- database-postgres -------------- #
 
 FROM postgres-baseline AS database-postgres
+
+WORKDIR /
 
 # -------------- app-service-api --------------- #
 

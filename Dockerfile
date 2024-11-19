@@ -97,6 +97,7 @@ WORKDIR /geo-projects-platform
 COPY --from=step-app /geo-projects-platform .
 
 RUN set -x \
+  && pnpm install --dev --frozen-lockfile \
   && pnpm build \
   && pnpm prune --prod
 

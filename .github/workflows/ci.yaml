@@ -50,7 +50,7 @@ jobs:
         run: pnpm run build
 
   deploy:
-    name: Lint and Build
+    name: Deploy
     runs-on: ubuntu-22.04
     concurrency: deploy-group-${{ github.ref }}
 

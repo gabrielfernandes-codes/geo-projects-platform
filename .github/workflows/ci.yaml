@@ -10,7 +10,7 @@ jobs:
     name: Lint and Build
     runs-on: ubuntu-22.04
     concurrency:
-      group: ci-${{ github.ref_name }}
+      group: ci-branch-${{ github.ref_name }}
       cancel-in-progress: true
 
     env:
@@ -54,7 +54,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-22.04
     concurrency:
-      group: ci-${{ github.ref_name }}
+      group: ci-branch-${{ github.ref_name }}
       cancel-in-progress: true
 
     needs:

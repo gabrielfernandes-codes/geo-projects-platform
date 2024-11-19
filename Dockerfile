@@ -97,7 +97,7 @@ WORKDIR /geo-projects-platform
 COPY --from=step-app /geo-projects-platform .
 
 RUN set -x \
-  && pnpm prune --prod \
-  && pnpm build
+  && pnpm build \
+  && pnpm prune --prod
 
 CMD ["pnpm", "--filter", "@platform/api",  "start"]

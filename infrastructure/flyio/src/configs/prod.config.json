@@ -1,6 +1,8 @@
 {
   "app": "geo-projects-service-api",
   "primary_region": "fra",
+  "kill_signal": "SIGINT",
+  "kill_timeout": 60,
   "build": {
     "dockerfile": "Dockerfile",
     "build-target": "app-service-api"
@@ -14,8 +16,8 @@
   },
   "vm": [
     {
-      "memory": "1gb",
       "cpu_kind": "shared",
+      "memory": "1gb",
       "cpus": 1
     }
   ]

@@ -10,7 +10,8 @@ jobs:
     name: Lint and Build
     runs-on: ubuntu-22.04
     concurrency:
-      group: prepare-group-${{ github.ref }}
+      group: ci-${{ github.ref_name }}
+      cancel-in-progress: true
 
     env:
       TURBO_TELEMETRY_DISABLED: 1
@@ -52,7 +53,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-22.04
-    concurrency: deploy-group-${{ github.ref }}
+    concurrency:
+      group: ci-${{ github.ref_name }}
+      cancel-in-progress: true
 
     needs:
       - prepare

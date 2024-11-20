@@ -163,4 +163,4 @@ jobs:
 
       - id: run-deploy
         name: Run Deploy
-        run: flyctl deploy . --access-token ${{ secrets.FLY_API_TOKEN }} --app geo-projects-service-api
+        run: flyctl deploy --access-token ${{ secrets.FLY_API_TOKEN }} --app geo-projects-service-api .

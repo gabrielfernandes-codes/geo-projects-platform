@@ -165,4 +165,6 @@ jobs:
 
       - id: run-deploy
         name: Run Deploy
-        run: FLY_API_TOKEN=${{ secrets.FLY_API_TOKEN }} flyctl deploy . --app geo-projects-service-api
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl deploy . --app ${{ vars.FLY_APP_NAME }} --config infrastructure/flyio/src/configs/prod.config.json

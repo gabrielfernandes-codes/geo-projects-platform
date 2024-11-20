@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc --allowImportingTsExtensions false --noEmit false",
     "dev": "tsx --env-file=.env --watch ./src/main.ts",
-    "test": "tsx --env-file=.env --test --test-concurrency=${NODE_TEST_CONCURRENCY:-10} ./src/**/*.test.ts",
+    "test": "tsx --test --test-concurrency=${NODE_TEST_CONCURRENCY:-10} ./src/**/*.test.ts",
     "start": "node ./dist/main.js",
     "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error",
     "lint": "eslint .",

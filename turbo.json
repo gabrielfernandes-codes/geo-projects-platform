@@ -37,6 +37,12 @@
       ],
       "cache": false
     },
+    "test": {
+      "dependsOn": [
+        "topo"
+      ],
+      "cache": false
+    },
     "format": {
       "cache": true
     },

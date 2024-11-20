@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "tsc --allowImportingTsExtensions false --noEmit false",
-    "dev": "tsx watch --env-file=.env ./src/main.ts",
+    "dev": "tsx --env-file=.env --watch ./src/main.ts",
+    "test": "tsx --env-file=.env --test --test-concurrency=${NODE_TEST_CONCURRENCY:-5} ./src/**/*.test.ts",
     "start": "node ./dist/main.js",
     "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error",
     "lint": "eslint .",

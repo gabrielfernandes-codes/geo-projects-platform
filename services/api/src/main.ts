@@ -1,3 +1,3 @@
-import { createStatefulServer } from './http/server'
+import { startStatefulServer } from './http/server.http'
 
-void createStatefulServer()
+void startStatefulServer()

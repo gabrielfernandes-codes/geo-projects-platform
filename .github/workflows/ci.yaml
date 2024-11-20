@@ -5,6 +5,9 @@ on:
     branches:
       - "*"
 
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   prepare:
     name: Lint and Build
@@ -14,7 +17,7 @@ jobs:
       cancel-in-progress: true
 
     env:
-      TURBO_TELEMETRY_DISABLED: 1
+      POSTGRES_DSN: ${{ secrets.POSTGRES_DSN }}
 
     steps:
       - id: repository-checkout
@@ -50,6 +53,12 @@ jobs:
         name: Run build
         run: pnpm run build
 
+      - id: run-tests
+        name: Run tests
+        env:
+          NODE_TEST_CONCURRENCY: 5
+        run: pnpm run test
+
   deploy:
     name: Deploy
     runs-on: ubuntu-22.04
@@ -59,6 +68,9 @@ jobs:
 
     needs:
       - prepare
+
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     steps:
       - id: repository-checkout
@@ -73,6 +85,4 @@ jobs:
 
       - id: run-deploy
         name: Run Deploy
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: flyctl deploy . --app geo-projects-service-api

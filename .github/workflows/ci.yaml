@@ -7,6 +7,7 @@ on:
 
 env:
   TURBO_TELEMETRY_DISABLED: 1
+  NODE_TEST_CONCURRENCY: 5
 
 jobs:
   prepare:
@@ -15,9 +16,6 @@ jobs:
     concurrency:
       group: ci-branch-${{ github.ref_name }}
       cancel-in-progress: true
-
-    env:
-      POSTGRES_DSN: ${{ secrets.POSTGRES_DSN }}
 
     steps:
       - id: repository-checkout
@@ -53,10 +51,51 @@ jobs:
         name: Run build
         run: pnpm run build
 
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    concurrency:
+      group: ci-branch-${{ github.ref_name }}
+      cancel-in-progress: true
+
+    needs:
+      - prepare
+
+    env:
+      POSTGRES_DSN: ${{ secrets.POSTGRES_DSN }}
+
+    steps:
+      - id: repository-checkout
+        name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - id: setup-pnpm
+        name: Setup dependency manager
+        uses: pnpm/action-setup@v4
+
+      - id: setup-node
+        name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "package.json"
+          cache: "pnpm"
+
+      - id: configure-pnpm
+        name: Configure dependency manager
+        run: pnpm config set global-bin-dir /usr/local/bin/
+
+      - id: install-dependencies
+        name: Install dependencies
+        run: pnpm install
+
+      - id: init-env-file
+        name: Init .env file
+        run: touch .env
+
       - id: run-tests
         name: Run tests
-        env:
-          NODE_TEST_CONCURRENCY: 5
         run: pnpm run test
 
   deploy:
@@ -67,7 +106,7 @@ jobs:
       cancel-in-progress: true
 
     needs:
-      - prepare
+      - test
 
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -82,6 +121,10 @@ jobs:
       - id: prepare-deploy-cli
         name: Prepare Flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - id: init-env-file
+        name: Init .env file
+        run: touch .env
 
       - id: run-deploy
         name: Run Deploy

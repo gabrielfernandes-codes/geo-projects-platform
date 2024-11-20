@@ -4,7 +4,7 @@ import FastifyPlugin from 'fastify-plugin'
 import { Static, Type } from '@sinclair/typebox'
 
 const schema = Type.Object({
-  NODE_ENV: Type.Union([Type.Literal('development'), Type.Literal('production')]),
+  NODE_ENV: Type.Union([Type.Literal('development'), Type.Literal('test'), Type.Literal('production')]),
   POSTGRES_DSN: Type.String(),
 })
 

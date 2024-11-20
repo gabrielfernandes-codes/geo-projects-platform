@@ -95,10 +95,6 @@ jobs:
         run: |
           echo "POSTGRES_DSN=some-variable" > .env
           echo "NODE_ENV=development" >> .env
-          
-      - name: Verify files
-        run: |
-          ls -la
 
       - id: run-build
         name: Run build

@@ -106,6 +106,7 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           project_id: ${{ vars.NEON_PROJECT_ID }}
           parent: ${{ vars.NEON_BASE_TEST_BRANCH_ID }}
+          branch_name: run-${{ github.sha }}
           database: geo_project_platform
           username: geo_project_platform_owner
 

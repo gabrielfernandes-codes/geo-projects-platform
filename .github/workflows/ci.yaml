@@ -90,13 +90,21 @@ jobs:
         name: Install dependencies
         run: pnpm install
 
-      - id: init-env-file
-        name: Init .env file
-        run: touch .env
+      - id: init-env-file-root
+        name: Init .env file in the root
+        run: |
+          echo "POSTGRES_DSN=some-variable" > .env
+          echo "NODE_ENV=development" >> .env
+
+      - id: init-env-file-api
+        name: Init .env file in services/api
+        run: |
+          echo "POSTGRES_DSN=some-variable" > services/api/.env
+          echo "NODE_ENV=development" >> services/api/.env
 
       - name: Verify files
         run: |
-          ls -l .env
+          ls -la
 
       - id: run-build
         name: Run build

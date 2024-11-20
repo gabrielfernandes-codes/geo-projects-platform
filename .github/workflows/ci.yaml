@@ -94,6 +94,10 @@ jobs:
         name: Init .env file
         run: touch .env
 
+      - name: Verify files
+        run: |
+          ls -l .env
+
       - id: run-tests
         name: Run tests
         run: pnpm run test

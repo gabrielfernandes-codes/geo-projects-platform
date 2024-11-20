@@ -6,8 +6,8 @@ on:
       - "*"
 
 env:
-  TURBO_TELEMETRY_DISABLED: 1
   NODE_TEST_CONCURRENCY: 5
+  TURBO_TELEMETRY_DISABLED: 1
 
 jobs:
   prepare:
@@ -16,6 +16,9 @@ jobs:
     concurrency:
       group: ci-branch-${{ github.ref_name }}
       cancel-in-progress: true
+
+    env:
+      NODE_ENV: development
 
     steps:
       - id: repository-checkout
@@ -43,6 +46,12 @@ jobs:
         name: Install dependencies
         run: pnpm install
 
+      - id: init-env-file
+        name: Init .env file
+        run: |
+          touch .env
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
+
       - id: run-lint
         name: Run lint
         run: pnpm run lint
@@ -62,6 +71,7 @@ jobs:
       - prepare
 
     env:
+      NODE_ENV: test
       POSTGRES_DSN: ${{ secrets.POSTGRES_DSN }}
 
     steps:
@@ -92,7 +102,14 @@ jobs:
 
       - id: init-env-file
         name: Init .env file
-        run: touch .env
+        run: |
+          touch .env
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
+          echo "POSTGRES_DSN=${{ env.POSTGRES_DSN }}" >> .env
+
+      - id: run-build
+        name: Run build
+        run: pnpm run build
 
       - id: run-tests
         name: Run tests
@@ -109,6 +126,7 @@ jobs:
       - test
 
     env:
+      NODE_ENV: production
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     steps:
@@ -124,7 +142,9 @@ jobs:
 
       - id: init-env-file
         name: Init .env file
-        run: touch .env
+        run: |
+          touch .env
+          echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
 
       - id: run-deploy
         name: Run Deploy

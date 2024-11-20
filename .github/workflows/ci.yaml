@@ -125,7 +125,9 @@ jobs:
         name: Run tests
         run: pnpm run test
 
-      - uses: neondatabase/delete-branch-action@v3
+      - id: clean-test-database
+        name: Clean test database
+        uses: neondatabase/delete-branch-action@v3
         with:
           api_key: ${{ secrets.NEON_API_KEY }}
           project_id: ${{ vars.NEON_PROJECT_ID }}
@@ -163,4 +165,6 @@ jobs:
 
       - id: run-deploy
         name: Run Deploy
-        run: flyctl deploy . --access-token ${{ secrets.FLY_API_TOKEN }} --app geo-projects-service-api
+        run: flyctl deploy . --remote-only --app ${{ vars.FLY_APP_NAME }} --config infrastructure/flyio/src/configs/prod.config.json
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

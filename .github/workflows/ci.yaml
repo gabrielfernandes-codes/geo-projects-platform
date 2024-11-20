@@ -48,7 +48,9 @@ jobs:
 
       - id: init-env-file
         name: Init .env file
-        run: touch .env
+        run: |
+          touch .env
+          echo "NODE_ENV={{ env.NODE_ENV }}" >> .env
 
       - id: run-lint
         name: Run lint
@@ -100,7 +102,10 @@ jobs:
 
       - id: init-env-file
         name: Init .env file
-        run: touch .env
+        run: |
+          touch .env
+          echo "NODE_ENV={{ env.NODE_ENV }}" >> .env
+          echo "POSTGRES_DSN=${{ env.POSTGRES_DSN }}" >> .env
 
       - id: run-build
         name: Run build
@@ -137,7 +142,9 @@ jobs:
 
       - id: init-env-file
         name: Init .env file
-        run: touch .env
+        run: |
+          touch .env
+          echo "NODE_ENV={{ env.NODE_ENV }}" >> .env
 
       - id: run-deploy
         name: Run Deploy

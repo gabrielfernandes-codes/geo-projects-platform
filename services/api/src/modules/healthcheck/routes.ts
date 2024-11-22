@@ -12,9 +12,15 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/',
     schema: {
       tags: ['Healthcheck'],
+      description: 'Check for system health.',
       response: {
         200: checkHealthResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: checkHealthHandler,
     preParsing: [isAuthorized],

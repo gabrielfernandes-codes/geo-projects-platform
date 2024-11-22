@@ -30,10 +30,16 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/',
     schema: {
       tags: ['Projects'],
+      description: 'Create a project.',
       body: createProjectPayloadSchema,
       response: {
         201: createProjectResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: createProjectsHandler,
     preParsing: [isAuthorized],
@@ -44,10 +50,16 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId',
     schema: {
       tags: ['Projects'],
+      description: 'Retrieve a project.',
       params: retrieveProjectParametersSchema,
       response: {
         200: retrieveProjectResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: retrieveProjectHandler,
     preParsing: [isAuthorized],
@@ -58,11 +70,17 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId/limits',
     schema: {
       tags: ['Projects'],
+      description: 'Set a project building limits.',
       params: updateProjectLimitsParametersSchema,
       body: updateProjectLimitsPayloadSchema,
       response: {
         200: updateProjectLimitsResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: updateProjectLimitsHandler,
     preParsing: [isAuthorized],
@@ -73,10 +91,16 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId/limits',
     schema: {
       tags: ['Projects'],
+      description: 'Retrieve a project building limits.',
       params: retrieveProjectLimitsParametersSchema,
       response: {
         200: retrieveProjectLimitsResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: retrieveProjectLimitsHandler,
     preParsing: [isAuthorized],
@@ -87,11 +111,17 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId/plateaus',
     schema: {
       tags: ['Projects'],
+      description: 'Set a project height plateaus.',
       params: updateProjectPlateausParametersSchema,
       body: updateProjectPlateausPayloadSchema,
       response: {
         200: updateProjectPlateausResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: updateProjectPlateausHandler,
     preParsing: [isAuthorized],
@@ -102,10 +132,16 @@ export async function routes(instance: FastifyInstance): Promise<void> {
     url: '/:projectId/plateaus',
     schema: {
       tags: ['Projects'],
+      description: 'Retrieve a project height plateau.',
       params: retrieveProjectPlateausParametersSchema,
       response: {
         200: retrieveProjectPlateausResponseSchema,
       },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
     },
     handler: retrieveProjectPlateausHandler,
     preParsing: [isAuthorized],

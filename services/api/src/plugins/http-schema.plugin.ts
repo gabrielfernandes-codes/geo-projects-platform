@@ -6,11 +6,19 @@ import FastifyPlugin from 'fastify-plugin'
 export const loadHttpSchemaPlugin = FastifyPlugin(async function plugin(instance: FastifyInstance): Promise<void> {
   void instance.register(FastifyHttpSchema, {
     openapi: {
+      openapi: '3.1.0',
       info: {
         title: 'OpenAPI',
         version: '0.0.0',
       },
-      openapi: '3.0.3',
+      components: {
+        securitySchemes: {
+          authorization: {
+            type: 'http',
+            scheme: 'bearer',
+          },
+        },
+      },
     },
   })
 

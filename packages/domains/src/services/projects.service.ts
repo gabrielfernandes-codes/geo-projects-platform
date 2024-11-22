@@ -43,9 +43,13 @@ export class ProjectsService {
   public async getProject(id: string): Promise<Project> {
     let project
 
+    console.log('getProject.id', id)
+
     try {
       project = await this.projectRepository.find(id)
     } catch (error) {
+      console.log('getProject.error', error)
+
       throw new UnableRetrieveProjectException()
     }
 

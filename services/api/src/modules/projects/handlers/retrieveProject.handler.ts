@@ -15,6 +15,8 @@ export const handler: RouteHandler<{
       throw reply.notFound(ProjectNotFoundException.message)
     }
 
+    this.log.error(error)
+
     throw reply.internalServerError()
   }
 }

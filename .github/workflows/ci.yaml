@@ -119,7 +119,7 @@ jobs:
           echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
           echo "VERSION_SHA=${{ github.sha}}" >> .env
           echo "LOG_LEVEL=silent" >> .env
-          echo "POSTGRES_DSN=${{ steps.setup-test-database.outputs.db_url }}" >> .env
+          echo "POSTGRES_DSN=${{ steps.prepare-test-database.outputs.db_url }}" >> .env
 
       - id: run-build
         name: Run build
@@ -135,7 +135,7 @@ jobs:
         with:
           api_key: ${{ secrets.NEON_API_KEY }}
           project_id: ${{ vars.NEON_PROJECT_ID }}
-          branch: ${{ steps.setup-test-database.outputs.branch_id }}
+          branch: ${{ steps.prepare-test-database.outputs.branch_id }}
 
   deploy:
     name: Deploy

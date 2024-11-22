@@ -99,8 +99,8 @@ jobs:
         name: Install dependencies
         run: pnpm install
 
-      - id: setup-test-database
-        name: Setup test database
+      - id: prepare-test-database
+        name: Prepare test database
         uses: neondatabase/create-branch-action@v5
         with:
           api_key: ${{ secrets.NEON_API_KEY }}
@@ -125,8 +125,8 @@ jobs:
         name: Run tests
         run: pnpm run test
 
-      - id: clean-test-database
-        name: Clean test database
+      - id: rollback-test-database
+        name: Rollback test database
         uses: neondatabase/delete-branch-action@v3
         with:
           api_key: ${{ secrets.NEON_API_KEY }}

@@ -11,16 +11,19 @@ export async function startStatefulServer(port: number = 3000, host: string = '0
 
     await instance.listen({ port, host })
 
-    console.log(`Server is running on ${protocol}://${host}:${port}`)
+    instance.log.info(`Server is running on ${protocol}://${host}:${port}`)
   } catch (error) {
+    instance.log.error('Error occurred:', error)
+
     process.exit(1)
   }
 
   const shutdown = async () => {
     try {
+      instance.log.info('Shutting down server...')
+
       await instance.close()
 
-      console.log('Server closed successfully.')
       process.exit(0)
     } catch (error) {
       process.exit(1)

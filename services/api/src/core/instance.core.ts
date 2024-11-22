@@ -12,7 +12,11 @@ export async function createInstance(
     }
   }[]
 ): Promise<FastifyInstance> {
-  const instance = Fastify()
+  const instance = Fastify({
+    logger: {
+      level: process.env.LOG_LEVEL || 'silent',
+    },
+  })
 
   await instance.register(loadHttpSchemaPlugin)
   await instance.register(loadServerEnvironmentsPlugin)

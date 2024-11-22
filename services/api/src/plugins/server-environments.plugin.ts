@@ -7,6 +7,7 @@ const schema = Type.Object(
   {
     NODE_ENV: Type.Union([Type.Literal('development'), Type.Literal('test'), Type.Literal('production')]),
     POSTGRES_DSN: Type.String(),
+    VERSION_SHA: Type.String({ default: 'undefined' }),
   },
   { additionalProperties: false }
 )

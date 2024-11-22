@@ -14,7 +14,7 @@ export async function createInstance(
 ): Promise<FastifyInstance> {
   const instance = Fastify({
     logger: {
-      level: process.env.LOG_LEVEL || 'silent',
+      level: process.env.LOG_LEVEL || process.env.NODE_ENV !== 'production' ? 'info' : 'silent',
     },
   })
 

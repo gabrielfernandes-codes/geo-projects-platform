@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@platform/neon": "workspace:*",
-    "@sinclair/typebox": "^0.34.3"
+    "@sinclair/typebox": "^0.34.7"
   },
   "devDependencies": {
     "@platform/compilers": "workspace:*",

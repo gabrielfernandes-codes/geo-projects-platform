@@ -52,6 +52,7 @@ jobs:
           touch .env
           echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
           echo "VERSION_SHA=${{ github.sha}}" >> .env
+          echo "LOG_LEVEL=error" >> .env
 
       - id: run-lint
         name: Run lint
@@ -117,6 +118,7 @@ jobs:
           touch .env
           echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
           echo "VERSION_SHA=${{ github.sha}}" >> .env
+          echo "LOG_LEVEL=silent" >> .env
           echo "POSTGRES_DSN=${{ steps.setup-test-database.outputs.db_url }}" >> .env
 
       - id: run-build
@@ -165,6 +167,7 @@ jobs:
           touch .env
           echo "NODE_ENV=${{ env.NODE_ENV }}" >> .env
           echo "VERSION_SHA=${{ github.sha}}" >> .env
+          echo "LOG_LEVEL=error" >> .env
 
       - id: run-deploy
         name: Run Deploy

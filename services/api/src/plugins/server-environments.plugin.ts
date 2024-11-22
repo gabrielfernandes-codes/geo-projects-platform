@@ -3,10 +3,13 @@ import FastifyEnvironments from '@fastify/env'
 import FastifyPlugin from 'fastify-plugin'
 import { Static, Type } from '@sinclair/typebox'
 
-const schema = Type.Object({
-  NODE_ENV: Type.Union([Type.Literal('development'), Type.Literal('test'), Type.Literal('production')]),
-  POSTGRES_DSN: Type.String(),
-})
+const schema = Type.Object(
+  {
+    NODE_ENV: Type.Union([Type.Literal('development'), Type.Literal('test'), Type.Literal('production')]),
+    POSTGRES_DSN: Type.String(),
+  },
+  { additionalProperties: false }
+)
 
 type Environments = Static<typeof schema>
 

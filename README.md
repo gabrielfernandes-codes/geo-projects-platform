@@ -1,6 +1,17 @@
 # Geo-Projects Platform
 
-This is a monorepo for the Geo-Projects Platform utilizing Turborepo. It contains backend service and shared packages.
+This is a fictional project designed for studying and practicing the implementation of various technologies, exploring different approaches and possibilities. The project focuses on the following technologies:
+
+- Turborepo
+- TypeScript
+- Fastify
+- Drizzle ORM
+- PostgreSQL
+- PostGIS
+- Neon
+- Docker
+- Fly.io
+- GitHub Actions
 
 ## Requirements
 
@@ -11,65 +22,87 @@ This is a monorepo for the Geo-Projects Platform utilizing Turborepo. It contain
 
 ### Containerized Installation
 
-> :exclamation: The current implementation doesn't contain a read available containers for each service but just a CLI tool to run the project in a containerized environment
-
 - [Docker](https://www.docker.com/) >= 24
 - [Docker Compose](https://docs.docker.com/compose/) >= 2
 
-### Installation
+## Installation
 
-#### Create Container Environment (optional)
+### Setup Environment (Optional)
 
-> :exclamation: The current implementation doesn't contain a read available containers for each service but just a CLI tool to run the project in a containerized environment
+1. Initiate .env file
 
-1. Build containers
+```bash
+cp -n .env.example .env
+```
 
-   ```bash
-   docker compose build
-   ```
+2. Build containers
 
-2. Create executable CLI container
+```bash
+docker compose build
+```
 
-   ```bash
-   docker compose run --rm cli
-   ```
+### Setup Project
 
-#### Setup Project
+1. Initiate .env file
 
-1. Install dependencies
+```bash
+cp -n .env.example .env
+```
 
-   ```bash
-   pnpm install
-   ```
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+3. Build monorepo
+
+```bash
+pnpm build
+```
+
+### Run Project
+
+- Start all monorepo's services
+
+```bash
+pnpm start
+```
+
+- Start and watch all monorepo's services
+
+```bash
+pnpm dev
+```
+
+- Run specific monorepo's service
+
+```bash
+pnpm --filter @platform/api start
+```
 
 ### Useful Commands
 
-- Starting a web Docker container (optional):
+- Test all monorepo's packages and services:
 
-   ```bash
-   docker compose run --rm -p 3000:3000 cli
-   ```
+```bash
+pnpm test
+```
 
-- Starting all monorepo's services locally:
+- Format all monorepo's packages and services:
 
-   ```bash
-   pnpm dev
-   ```
+```bash
+pnpm format
+```
 
-- Starting a specific service locally:
+- Lint all monorepo's packages and services:
 
-   ```bash
-   pnpm turbo dev --filter=@platform/api
-   ```
+```bash
+pnpm lint
+```
 
-- Formatting monorepo code:
+- Initialize a executable CLI container
 
-  ```bash
-  pnpm format
-  ```
-
-- Linting monorepo code:
-
-  ```bash
-  pnpm lint
-  ```
+```bash
+docker compose run --rm cli
+```

@@ -40,7 +40,7 @@ export const module = {
 
     const projectsService = new ProjectsService(projectsRepository)
     const projectsLimitsService = new ProjectsLimitsService(projectsLimitsRepository)
-    const projectsPlateausService = new ProjectsPlateausService(projectsPlateausRepository, projectsLimitsRepository)
+    const projectsPlateausService = new ProjectsPlateausService(projectsPlateausRepository)
 
     void instance.decorate('projectsService', projectsService)
     void instance.decorate('projectsLimitsService', projectsLimitsService)

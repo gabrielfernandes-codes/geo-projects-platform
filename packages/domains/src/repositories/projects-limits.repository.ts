@@ -14,15 +14,33 @@ export class ProjectsLimitsRepository extends AbstractRepository {
 
       await trx.delete(projectsLimitsTable).where(eq(projectsLimitsTable.projectId, projectId))
 
-      for (const feature of data.geometries.features) {
-        const geometryStringified = JSON.stringify(feature.geometry)
-
-        await trx.insert(projectsLimitsTable).values({
-          projectId,
-          geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${geometryStringified}), 4326)::geography`,
-          properties: feature.properties,
-        })
-      }
+      await trx.execute(sql`
+        WITH
+          input_data AS (
+            SELECT ${JSON.stringify(data.geometries)}::jsonb AS geojson_data
+          ),
+          parsed_features AS (
+            SELECT
+              jsonb_array_elements(geojson_data->'features') AS feature
+            FROM
+              input_data
+          ),
+          feature_collection AS (
+            SELECT
+              ${projectId}::uuid AS project_id,
+              ST_SetSRID(ST_GeomFromGeoJSON(feature->>'geometry'), 4326)::geography AS geography,
+              (feature->'properties')::jsonb AS properties
+            FROM
+              parsed_features
+          )
+        INSERT INTO ${projectsLimitsTable} (${sql.raw(projectsLimitsTable.projectId.name)}, ${sql.raw(projectsLimitsTable.geometry.name)}, ${sql.raw(projectsLimitsTable.properties.name)})
+        SELECT
+          ${sql.raw(projectsLimitsTable.projectId.name)},
+          ${sql.raw(projectsLimitsTable.geometry.name)},
+          ${sql.raw(projectsLimitsTable.properties.name)}
+        FROM
+          feature_collection;
+      `)
 
       const records = await trx
         .select(projectLimitSelect)

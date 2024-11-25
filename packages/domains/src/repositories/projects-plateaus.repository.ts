@@ -1,4 +1,4 @@
-import { eq, projectsLimitsTable, projectsPlateausTable, sql } from '@platform/neon'
+import { eq, projectsLimitPlateausTable, projectsLimitsTable, projectsPlateausTable, sql } from '@platform/neon'
 
 import { feature as createFeature, featureCollection as createFeatureCollection } from '@turf/turf'
 import { ProjectPlateausBaseInsertDto } from '../dtos/projects-plateaus.dto'
@@ -16,12 +16,14 @@ export class ProjectsPlateausRepository extends AbstractRepository {
         sql`SELECT 1 FROM ${projectsPlateausTable} WHERE ${projectsPlateausTable.projectId} = ${projectId} FOR UPDATE`
       )
 
-      const geometriesStringified = JSON.stringify(data.geometries)
+      await trx.execute(
+        sql`SELECT 1 FROM ${projectsLimitPlateausTable} WHERE ${projectsLimitPlateausTable.projectId} = ${projectId} FOR UPDATE`
+      )
 
       const intersectionResponse = await trx.execute(sql`
         WITH
           input_data AS (
-            SELECT ${geometriesStringified}::jsonb AS geojson_data
+            SELECT ${JSON.stringify(data.geometries)}::jsonb AS geojson_data
           ),
           parsed_features AS (
             SELECT
@@ -60,16 +62,84 @@ export class ProjectsPlateausRepository extends AbstractRepository {
       }
 
       await trx.delete(projectsPlateausTable).where(eq(projectsPlateausTable.projectId, projectId))
+      await trx.delete(projectsLimitPlateausTable).where(eq(projectsLimitPlateausTable.projectId, projectId))
 
-      for (const feature of data.geometries.features) {
-        const geometryStringified = JSON.stringify(feature.geometry)
+      await trx.execute(sql`
+        WITH
+          input_data AS (
+            SELECT ${JSON.stringify(data.geometries)}::jsonb AS geojson_data
+          ),
+          parsed_features AS (
+            SELECT
+              jsonb_array_elements(geojson_data->'features') AS feature
+            FROM
+              input_data
+          ),
+          feature_collection AS (
+            SELECT
+              ${projectId}::uuid AS ${sql.raw(projectsPlateausTable.projectId.name)},
+              ST_SetSRID(ST_GeomFromGeoJSON(feature->>'geometry'), 4326)::geography AS ${sql.raw(projectsPlateausTable.geometry.name)},
+              (feature->'properties')::jsonb AS ${sql.raw(projectsPlateausTable.properties.name)}
+            FROM
+              parsed_features
+          )
+        INSERT INTO ${projectsPlateausTable} (${sql.raw(projectsPlateausTable.projectId.name)}, ${sql.raw(projectsPlateausTable.geometry.name)}, ${sql.raw(projectsPlateausTable.properties.name)})
+        SELECT
+          ${sql.raw(projectsPlateausTable.projectId.name)},
+          ${sql.raw(projectsPlateausTable.geometry.name)},
+          ${sql.raw(projectsPlateausTable.properties.name)}
+        FROM
+          feature_collection;
+      `)
 
-        await trx.insert(projectsPlateausTable).values({
-          projectId,
-          geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${geometryStringified}), 4326)::geography`,
-          properties: feature.properties,
-        })
-      }
+      await trx.execute(sql`
+        WITH
+          project_limits AS (
+            SELECT
+              ${projectsLimitsTable.geometry}
+            FROM
+              ${projectsLimitsTable}
+            WHERE
+              ${projectsLimitsTable.projectId} = ${projectId}
+          ),
+          project_plateaus AS (
+            SELECT
+              ${projectsPlateausTable.geometry}, ${projectsPlateausTable.properties}
+            FROM
+              ${projectsPlateausTable}
+            WHERE
+              ${projectsPlateausTable.projectId} = ${projectId}
+          ),
+          intersected_geometries AS (
+            SELECT
+              ${projectId}::uuid AS ${sql.raw(projectsLimitPlateausTable.projectId.name)},
+              ST_Intersection(${projectsLimitsTable.geometry}::geometry, ${projectsPlateausTable.geometry}::geometry) AS ${sql.raw(projectsLimitPlateausTable.geometry.name)},
+              ${projectsPlateausTable.properties}::jsonb AS ${sql.raw(projectsLimitPlateausTable.properties.name)}
+            FROM
+              ${projectsLimitsTable}
+            CROSS JOIN
+              ${projectsPlateausTable}
+            WHERE
+              ST_Intersects(${projectsLimitsTable.geometry}::geometry, ${projectsPlateausTable.geometry}::geometry)
+          ),
+          extracted_polygons AS (
+            SELECT
+              ${sql.raw(projectsPlateausTable.projectId.name)},
+              (ST_Dump(ST_CollectionExtract(ST_MakeValid(geometry), 3))).geom AS ${sql.raw(projectsPlateausTable.geometry.name)},
+              ${sql.raw(projectsPlateausTable.properties.name)}
+            FROM
+              intersected_geometries
+            WHERE
+              NOT ST_IsEmpty(geometry)
+          )
+        INSERT INTO ${projectsLimitPlateausTable} (${sql.raw(projectsLimitPlateausTable.projectId.name)}, ${sql.raw(projectsLimitPlateausTable.geometry.name)}, ${sql.raw(projectsLimitPlateausTable.properties.name)})
+        SELECT
+          ${sql.raw(projectsLimitPlateausTable.projectId.name)},
+          ${sql.raw(projectsLimitPlateausTable.geometry.name)},
+          ${sql.raw(projectsLimitPlateausTable.properties.name)}
+        FROM
+          extracted_polygons;
+      `)
 
       const records = await trx
         .select(projectPlateauSelect)

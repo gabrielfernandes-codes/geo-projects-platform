@@ -1,4 +1,5 @@
 export * from './schemas/projects.schema'
+export * from './schemas/projects_limit_plateaus.schema'
 export * from './schemas/projects_limits.schema'
 export * from './schemas/projects_plateaus.schema'
 export * from './services/database-factory.service'

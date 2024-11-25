@@ -29,6 +29,13 @@
       "when": 1731608719603,
       "tag": "20241114182519_add_projects_geometry_properties",
       "breakpoints": false
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732554513530,
+      "tag": "20241125170833_add_project_limit_plateaus_table",
+      "breakpoints": false
     }
   ]
 }

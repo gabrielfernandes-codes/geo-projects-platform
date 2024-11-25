@@ -3,7 +3,7 @@ import { Static, Type } from '@sinclair/typebox'
 export const polygonSchema = Type.Object(
   {
     type: Type.Literal('Polygon'),
-    coordinates: Type.Array(Type.Array(Type.Tuple([Type.Number(), Type.Number()]), { minItems: 3 })),
+    coordinates: Type.Array(Type.Array(Type.Tuple([Type.Number(), Type.Number()]), { minItems: 4 })),
   },
   { additionalProperties: false }
 )

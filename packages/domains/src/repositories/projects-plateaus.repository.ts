@@ -18,46 +18,44 @@ export class ProjectsPlateausRepository extends AbstractRepository {
 
       const geometriesStringified = JSON.stringify(data.geometries)
 
-      const isWithinResponse = await trx.execute(sql`
+      const intersectionResponse = await trx.execute(sql`
         WITH
           input_data AS (
-              SELECT ${geometriesStringified}::jsonb AS geojson_data
+            SELECT ${geometriesStringified}::jsonb AS geojson_data
           ),
           parsed_features AS (
-              SELECT
-                  jsonb_array_elements(geojson_data->'features') AS feature
-              FROM
-                  input_data
+            SELECT
+              jsonb_array_elements(geojson_data->'features') AS feature
+            FROM
+              input_data
           ),
           feature_collection AS (
-              SELECT
-                  ST_MakeValid(
-                      ST_SetSRID(ST_GeomFromGeoJSON(feature->'geometry'), 4326)::geometry
-                  ) AS geometries
-              FROM
-                  parsed_features
+            SELECT
+              ST_MakeValid(ST_SetSRID(ST_GeomFromGeoJSON(feature->'geometry'), 4326)::geometry) AS geometries
+            FROM
+              parsed_features
           ),
           combined_project_limits AS (
-              SELECT
-                  ST_Union(${projectsLimitsTable.geometry}::geometry) AS geometries
-              FROM
-                  ${projectsLimitsTable}
-              WHERE
-                  ${projectsLimitsTable.projectId} = ${projectId}
+            SELECT
+              ST_Union(${projectsLimitsTable.geometry}::geometry) AS geometries
+            FROM
+              ${projectsLimitsTable}
+            WHERE
+              ${projectsLimitsTable.projectId} = ${projectId}
           ),
           features_within_limits AS (
-              SELECT
-                  bool_and(ST_Within(feature_collection.geometries, combined_project_limits.geometries)) AS all_features_within
-              FROM
-                  feature_collection, combined_project_limits
+            SELECT
+              bool_and(ST_Intersects(combined_project_limits.geometries, feature_collection.geometries)) AS all_features_within
+            FROM
+              feature_collection, combined_project_limits
           )
         SELECT
-            all_features_within AS is_within
+          all_features_within AS does_intersect
         FROM
-            features_within_limits;
+          features_within_limits;
       `)
 
-      if (!isWithinResponse.rows[0].is_within) {
+      if (!intersectionResponse.rows[0].does_intersect) {
         throw new Error('The provided plateaus are not within the project limits')
       }
 

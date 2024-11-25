@@ -3,17 +3,17 @@ import {
   booleanEqual,
   booleanValid,
   cleanCoords,
-  kinks,
-  rewind,
   clone,
-  simplify,
   featureCollection as createFeatureCollection,
   point as createPoint,
+  kinks,
+  rewind,
+  simplify,
   unkinkPolygon,
 } from '@turf/turf'
 
 import { FeatureCollection } from '../objects/feature-collection.object'
-import { ArrayItem } from './types.util'
+import { Feature } from '../objects/feature.object'
 
 export function arePolygonsValid(featureCollection: FeatureCollection): boolean {
   return featureCollection.features.every((feature) => {
@@ -81,8 +81,8 @@ export function removeDuplicateCoordinates(featureCollection: FeatureCollection)
   return featureCollection
 }
 
-export function fixSelfIntersections(featureCollection: FeatureCollection) {
-  const fixedFeatures: FeatureCollection['features'] = []
+export function fixSelfIntersections(featureCollection: FeatureCollection): FeatureCollection {
+  const fixedFeatures: Feature[] = []
 
   featureCollection.features.forEach((feature) => {
     if (!feature.geometry || feature.geometry.type !== 'Polygon') {
@@ -99,7 +99,7 @@ export function fixSelfIntersections(featureCollection: FeatureCollection) {
       return
     }
 
-    const unkinked = unkinkPolygon(feature.geometry)
+    const unkinked = unkinkPolygon(feature.geometry) as FeatureCollection
 
     if (unkinked.features.length === 0) {
       throw new Error('Cannot fix self-intersections.')
@@ -108,7 +108,7 @@ export function fixSelfIntersections(featureCollection: FeatureCollection) {
     unkinked.features.forEach((unkinkedFeature) => {
       unkinkedFeature.properties = feature.properties
 
-      fixedFeatures.push(unkinkedFeature as ArrayItem<FeatureCollection['features']>)
+      fixedFeatures.push(unkinkedFeature)
     })
   })
 

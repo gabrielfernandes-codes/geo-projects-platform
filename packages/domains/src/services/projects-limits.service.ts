@@ -17,15 +17,15 @@ import {
 export class ProjectsLimitsService {
   private projectLimitsRepository: ProjectsLimitsRepository
 
-  constructor(projectRepository: ProjectsLimitsRepository) {
-    this.projectLimitsRepository = projectRepository
+  constructor(projectLimitsRepository: ProjectsLimitsRepository) {
+    this.projectLimitsRepository = projectLimitsRepository
   }
 
   public async updateLimits(projectId: string, data: ProjectLimitsBaseInsertDto): Promise<ProjectLimits> {
     let projectLimits
 
     try {
-      data.geometries = this.prepareFeatureCollection(data.geometries)
+      data.geometries = this.prepareGeometries(data.geometries)
     } catch (error) {
       throw new InvalidProjectLimitsGeometriesException()
     }
@@ -51,7 +51,7 @@ export class ProjectsLimitsService {
     return projectLimits
   }
 
-  private prepareFeatureCollection(featureCollection: FeatureCollection): FeatureCollection {
+  private prepareGeometries(featureCollection: FeatureCollection): FeatureCollection {
     if (!arePolygonsValid(featureCollection)) {
       featureCollection = fixPolygonsClosure(featureCollection)
     }

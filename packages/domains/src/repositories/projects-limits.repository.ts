@@ -1,9 +1,9 @@
 import { eq, projectsLimitsTable, sql } from '@platform/neon'
 
+import { feature as createFeature, featureCollection as createFeatureCollection } from '@turf/turf'
 import { ProjectLimitsBaseInsertDto } from '../dtos/projects-limits.dto'
 import { ProjectLimits, projectLimitSelect } from '../entities/project-limit.entity'
 import { AbstractRepository } from './abstract.repository'
-import { featureCollectionSchema } from '../objects/feature-collection.object'
 
 export class ProjectsLimitsRepository extends AbstractRepository {
   public async replaceByProjectId(projectId: string, data: ProjectLimitsBaseInsertDto): Promise<ProjectLimits> {
@@ -15,9 +15,11 @@ export class ProjectsLimitsRepository extends AbstractRepository {
       await trx.delete(projectsLimitsTable).where(eq(projectsLimitsTable.projectId, projectId))
 
       for (const feature of data.geometries.features) {
+        const geometryStringified = JSON.stringify(feature.geometry)
+
         await trx.insert(projectsLimitsTable).values({
           projectId,
-          geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)}), 4326)::geography`,
+          geometry: sql`ST_SetSRID(ST_GeomFromGeoJSON(${geometryStringified}), 4326)::geography`,
           properties: feature.properties,
         })
       }
@@ -28,14 +30,9 @@ export class ProjectsLimitsRepository extends AbstractRepository {
         .where(eq(projectsLimitsTable.projectId, projectId))
 
       return {
-        geometries: {
-          type: featureCollectionSchema.properties.type.const,
-          features: records.map((record) => ({
-            type: featureCollectionSchema.properties.features.items.properties.type.const,
-            geometry: record.geometry,
-            properties: record.properties,
-          })),
-        },
+        geometries: createFeatureCollection(
+          records.map((record) => createFeature(record.geometry, record.properties || {}))
+        ),
       }
     })
 
@@ -49,14 +46,9 @@ export class ProjectsLimitsRepository extends AbstractRepository {
       .where(eq(projectsLimitsTable.projectId, projectId))
 
     return {
-      geometries: {
-        type: featureCollectionSchema.properties.type.const,
-        features: records.map((record) => ({
-          type: featureCollectionSchema.properties.features.items.properties.type.const,
-          geometry: record.geometry,
-          properties: record.properties,
-        })),
-      },
-    } as ProjectLimits
+      geometries: createFeatureCollection(
+        records.map((record) => createFeature(record.geometry, record.properties || {}))
+      ),
+    }
   }
 }

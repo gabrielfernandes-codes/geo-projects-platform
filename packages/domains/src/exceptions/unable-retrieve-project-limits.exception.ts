@@ -1,8 +1,8 @@
-export class UnableRetrieveProjectLimitException extends Error {
-  public static message = 'Unable to retrieve project limit'
+export class UnableRetrieveProjectLimitsException extends Error {
+  public static message = 'Unable to retrieve project limits'
 
   constructor() {
-    super(UnableRetrieveProjectLimitException.message)
+    super(UnableRetrieveProjectLimitsException.message)
 
     this.name = this.constructor.name
 

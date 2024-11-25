@@ -39,9 +39,8 @@ export const featureCollectionSchema = Type.Object(
                 { additionalProperties: false }
               ),
             ]),
-            Type.Null(),
           ]),
-          properties: Type.Optional(Type.Record(Type.String(), Type.Any())),
+          properties: Type.Union([Type.Record(Type.String(), Type.Any()), Type.Null()]),
         },
         { additionalProperties: false }
       )

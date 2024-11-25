@@ -1,5 +1,5 @@
 import type { RouteHandler } from 'fastify'
-import { ProjectNotFoundException } from '@platform/domains'
+import { InvalidProjectPlateausGeometriesException, ProjectNotFoundException } from '@platform/domains'
 
 import type { UpdateProjectPlateausParameters } from '../schemas/updateProjectPlateausParameters.schema'
 import type { UpdateProjectPlateausPayload } from '../schemas/updateProjectPlateausPayload.schema'
@@ -25,6 +25,10 @@ export const handler: RouteHandler<{
 
     return reply.ok(projectPlateaus)
   } catch (error) {
+    if (error instanceof InvalidProjectPlateausGeometriesException) {
+      throw reply.badRequest(InvalidProjectPlateausGeometriesException.message)
+    }
+
     throw reply.internalServerError()
   }
 }

@@ -1,8 +1,8 @@
-export class UnableUpdateProjectPlateauException extends Error {
-  public static message = 'Unable to update project plateau'
+export class InvalidProjectPlateausGeometriesException extends Error {
+  public static message = 'Invalid project plateaus geometries'
 
   constructor() {
-    super(UnableUpdateProjectPlateauException.message)
+    super(InvalidProjectPlateausGeometriesException.message)
 
     this.name = this.constructor.name
 

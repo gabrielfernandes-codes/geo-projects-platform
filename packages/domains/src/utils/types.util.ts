@@ -3,3 +3,5 @@ export type Override<OriginalType, AdditionalFields = {}, OmitFields extends key
   keyof AdditionalFields | OmitFields
 > &
   AdditionalFields
+
+export type ArrayItem<T> = T extends Array<infer U> ? U : never

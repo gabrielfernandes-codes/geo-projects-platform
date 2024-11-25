@@ -1,8 +1,8 @@
-export class UnableRetrieveProjectPlateauException extends Error {
-  public static message = 'Unable to retrieve project plateau'
+export class InvalidProjectLimitsGeometriesException extends Error {
+  public static message = 'Invalid project limits geometries'
 
   constructor() {
-    super(UnableRetrieveProjectPlateauException.message)
+    super(InvalidProjectLimitsGeometriesException.message)
 
     this.name = this.constructor.name
 

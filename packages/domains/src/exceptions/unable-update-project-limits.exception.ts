@@ -1,8 +1,8 @@
-export class UnableUpdateProjectLimitException extends Error {
-  public static message = 'Unable to update project limit'
+export class UnableUpdateProjectLimitsException extends Error {
+  public static message = 'Unable to update project limits'
 
   constructor() {
-    super(UnableUpdateProjectLimitException.message)
+    super(UnableUpdateProjectLimitsException.message)
 
     this.name = this.constructor.name
 

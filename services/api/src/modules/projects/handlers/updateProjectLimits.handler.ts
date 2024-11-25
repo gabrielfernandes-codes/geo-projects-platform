@@ -1,5 +1,5 @@
 import type { RouteHandler } from 'fastify'
-import { ProjectNotFoundException } from '@platform/domains'
+import { InvalidProjectLimitsGeometriesException, ProjectNotFoundException } from '@platform/domains'
 
 import type { UpdateProjectLimitsParameters } from '../schemas/updateProjectLimitsParameters.schema'
 import type { UpdateProjectLimitsPayload } from '../schemas/updateProjectLimitsPayload.schema'
@@ -25,6 +25,10 @@ export const handler: RouteHandler<{
 
     return reply.ok(projectLimits)
   } catch (error) {
+    if (error instanceof InvalidProjectLimitsGeometriesException) {
+      throw reply.badRequest(InvalidProjectLimitsGeometriesException.message)
+    }
+
     throw reply.internalServerError()
   }
 }

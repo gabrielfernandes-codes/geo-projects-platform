@@ -1,8 +1,18 @@
 import { ProjectLimitsBaseInsertDto } from '../dtos/projects-limits.dto'
 import { ProjectLimits } from '../entities/project-limit.entity'
-import { UnableRetrieveProjectLimitException } from '../exceptions/unable-retrieve-project-limit.exception'
-import { UnableUpdateProjectLimitException } from '../exceptions/unable-update-project-limit.exception'
+import { InvalidProjectLimitsGeometriesException } from '../exceptions/invalid-project-limits-geometries.exception'
+import { UnableRetrieveProjectLimitsException } from '../exceptions/unable-retrieve-project-limits.exception'
+import { UnableUpdateProjectLimitsException } from '../exceptions/unable-update-project-limits.exception'
+import { FeatureCollection } from '../objects/feature-collection.object'
 import { ProjectsLimitsRepository } from '../repositories/projects-limits.repository'
+import {
+  arePolygonsValid,
+  fixWindingOrder,
+  fixPolygonsClosure,
+  fixSelfIntersections,
+  removeDuplicateCoordinates,
+  removeSmallPolygons,
+} from '../utils/geometries.util'
 
 export class ProjectsLimitsService {
   private projectLimitsRepository: ProjectsLimitsRepository
@@ -15,9 +25,15 @@ export class ProjectsLimitsService {
     let projectLimits
 
     try {
+      data.geometries = this.prepareFeatureCollection(data.geometries)
+    } catch (error) {
+      throw new InvalidProjectLimitsGeometriesException()
+    }
+
+    try {
       projectLimits = await this.projectLimitsRepository.replaceByProjectId(projectId, data)
     } catch (error) {
-      throw new UnableUpdateProjectLimitException()
+      throw new UnableUpdateProjectLimitsException()
     }
 
     return projectLimits
@@ -29,9 +45,27 @@ export class ProjectsLimitsService {
     try {
       projectLimits = await this.projectLimitsRepository.getByProjectId(projectId)
     } catch (error) {
-      throw new UnableRetrieveProjectLimitException()
+      throw new UnableRetrieveProjectLimitsException()
     }
 
     return projectLimits
+  }
+
+  private prepareFeatureCollection(featureCollection: FeatureCollection): FeatureCollection {
+    if (!arePolygonsValid(featureCollection)) {
+      featureCollection = fixPolygonsClosure(featureCollection)
+    }
+
+    featureCollection = removeDuplicateCoordinates(featureCollection)
+    featureCollection = fixSelfIntersections(featureCollection)
+    featureCollection = removeSmallPolygons(featureCollection)
+
+    if (!arePolygonsValid(featureCollection)) {
+      throw new Error('Invalid polygons')
+    }
+
+    featureCollection = fixWindingOrder(featureCollection)
+
+    return featureCollection
   }
 }

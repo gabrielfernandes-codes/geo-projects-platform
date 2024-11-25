@@ -15,6 +15,16 @@ export async function createInstance(
   const instance = Fastify({
     logger: {
       level: process.env.LOG_LEVEL ?? (process.env.NODE_ENV !== 'production' ? 'info' : 'silent'),
+      transport:
+        process.env.LOG_LEVEL && process.env.LOG_LEVEL !== 'silent'
+          ? {
+              target: 'pino-pretty',
+              options: {
+                translateTime: 'HH:MM:ss Z',
+                ignore: 'pid,hostname',
+              },
+            }
+          : undefined,
     },
   })
 

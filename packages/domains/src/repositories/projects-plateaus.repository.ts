@@ -77,9 +77,9 @@ export class ProjectsPlateausRepository extends AbstractRepository {
           ),
           feature_collection AS (
             SELECT
-              ${projectId}::uuid AS ${sql.raw(projectsPlateausTable.projectId.name)},
-              ST_SetSRID(ST_GeomFromGeoJSON(feature->>'geometry'), 4326)::geography AS ${sql.raw(projectsPlateausTable.geometry.name)},
-              (feature->'properties')::jsonb AS ${sql.raw(projectsPlateausTable.properties.name)}
+              ${projectId}::uuid AS project_id,
+              ST_SetSRID(ST_GeomFromGeoJSON(feature->>'geometry'), 4326)::geography AS geometry,
+              (feature->'properties')::jsonb AS properties
             FROM
               parsed_features
           )

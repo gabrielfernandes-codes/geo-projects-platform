@@ -1,8 +1,8 @@
-export class InvalidProjectPlateausGeometriesExceptionBoundaries extends Error {
+export class InvalidProjectPlateausGeometriesBoundariesException extends Error {
   public static message = 'Invalid project plateaus geometries boundaries'
 
   constructor() {
-    super(InvalidProjectPlateausGeometriesExceptionBoundaries.message)
+    super(InvalidProjectPlateausGeometriesBoundariesException.message)
 
     this.name = this.constructor.name
 

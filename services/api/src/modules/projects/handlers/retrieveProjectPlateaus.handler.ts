@@ -17,7 +17,7 @@ export const handler: RouteHandler<{
   }
 
   try {
-    const projectPlateaus = await this.projectsPlateausService.getPlateaus(request.params.projectId)
+    const projectPlateaus = await this.projectsLimitPlateausService.getPlateaus(request.params.projectId)
 
     return reply.ok(projectPlateaus)
   } catch (error) {

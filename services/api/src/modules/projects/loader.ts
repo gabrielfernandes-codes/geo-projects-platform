@@ -1,9 +1,9 @@
 import {
   DatabaseManager,
+  ProjectsLimitPlateausRepository,
+  ProjectsLimitPlateausService,
   ProjectsLimitsRepository,
   ProjectsLimitsService,
-  ProjectsPlateausRepository,
-  ProjectsPlateausService,
   ProjectsRepository,
   ProjectsService,
 } from '@platform/domains'
@@ -20,7 +20,7 @@ declare module 'fastify' {
   export interface FastifyInstance {
     projectsService: ProjectsService
     projectsLimitsService: ProjectsLimitsService
-    projectsPlateausService: ProjectsPlateausService
+    projectsLimitPlateausService: ProjectsLimitPlateausService
   }
 }
 
@@ -36,15 +36,15 @@ export const module = {
 
     const projectsRepository = new ProjectsRepository(databaseManager)
     const projectsLimitsRepository = new ProjectsLimitsRepository(databaseManager)
-    const projectsPlateausRepository = new ProjectsPlateausRepository(databaseManager)
+    const projectsLimitPlateausRepository = new ProjectsLimitPlateausRepository(databaseManager)
 
     const projectsService = new ProjectsService(projectsRepository)
     const projectsLimitsService = new ProjectsLimitsService(projectsLimitsRepository)
-    const projectsPlateausService = new ProjectsPlateausService(projectsPlateausRepository)
+    const projectsLimitPlateausService = new ProjectsLimitPlateausService(projectsLimitPlateausRepository)
 
     void instance.decorate('projectsService', projectsService)
     void instance.decorate('projectsLimitsService', projectsLimitsService)
-    void instance.decorate('projectsPlateausService', projectsPlateausService)
+    void instance.decorate('projectsLimitPlateausService', projectsLimitPlateausService)
   },
   options: { prefix: basePath },
 }

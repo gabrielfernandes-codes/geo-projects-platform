@@ -1,5 +1,6 @@
 import { ProjectPlateausBaseInsertDto } from '../dtos/projects-plateaus.dto'
 import { ProjectPlateaus } from '../entities/project-plateau.entity'
+import { InvalidProjectPlateausGeometriesBoundariesException } from '../exceptions/invalid-project-plateaus-geometries-boundaries.exception'
 import { InvalidProjectPlateausGeometriesException } from '../exceptions/invalid-project-plateaus-geometries.exception'
 import { UnableRetrieveProjectPlateausException } from '../exceptions/unable-retrieve-project-plateaus.exception'
 import { UnableUpdateProjectPlateausException } from '../exceptions/unable-update-project-plateaus.exception'
@@ -33,6 +34,10 @@ export class ProjectsPlateausService {
     try {
       projectPlateaus = await this.projectPlateausRepository.replaceByProjectId(projectId, data)
     } catch (error) {
+      if (error instanceof RangeError) {
+        throw new InvalidProjectPlateausGeometriesBoundariesException()
+      }
+
       throw new UnableUpdateProjectPlateausException()
     }
 

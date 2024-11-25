@@ -58,7 +58,7 @@ export class ProjectsPlateausRepository extends AbstractRepository {
       `)
 
       if (!intersectionResponse.rows[0].does_intersect) {
-        throw new Error('The provided plateaus are not within the project limits')
+        throw new RangeError('Invalid project plateaus geometries')
       }
 
       await trx.delete(projectsPlateausTable).where(eq(projectsPlateausTable.projectId, projectId))

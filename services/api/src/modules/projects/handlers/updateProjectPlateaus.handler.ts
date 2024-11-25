@@ -1,5 +1,9 @@
 import type { RouteHandler } from 'fastify'
-import { InvalidProjectPlateausGeometriesException, ProjectNotFoundException } from '@platform/domains'
+import {
+  InvalidProjectPlateausGeometriesException,
+  ProjectNotFoundException,
+  InvalidProjectLimitPlateausGeometriesBoundariesException,
+} from '@platform/domains'
 
 import type { UpdateProjectPlateausParameters } from '../schemas/updateProjectPlateausParameters.schema'
 import type { UpdateProjectPlateausPayload } from '../schemas/updateProjectPlateausPayload.schema'
@@ -19,7 +23,7 @@ export const handler: RouteHandler<{
   }
 
   try {
-    const projectPlateaus = await this.projectsPlateausService.updatePlateaus(request.params.projectId, {
+    const projectPlateaus = await this.projectsLimitPlateausService.updatePlateaus(request.params.projectId, {
       geometries: request.body.geometries,
     })
 
@@ -27,6 +31,10 @@ export const handler: RouteHandler<{
   } catch (error) {
     if (error instanceof InvalidProjectPlateausGeometriesException) {
       throw reply.badRequest(InvalidProjectPlateausGeometriesException.message)
+    }
+
+    if (error instanceof InvalidProjectLimitPlateausGeometriesBoundariesException) {
+      throw reply.badRequest(InvalidProjectLimitPlateausGeometriesBoundariesException.message)
     }
 
     throw reply.internalServerError()

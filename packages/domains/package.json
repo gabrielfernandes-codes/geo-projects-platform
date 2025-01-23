@@ -16,13 +16,13 @@
   },
   "dependencies": {
     "@platform/neon": "workspace:*",
-    "@sinclair/typebox": "^0.34.8",
-    "@turf/turf": "^7.1.0"
+    "@sinclair/typebox": "^0.34.14",
+    "@turf/turf": "^7.2.0"
   },
   "devDependencies": {
     "@platform/compilers": "workspace:*",
     "@platform/formatters": "workspace:*",
     "@platform/linters": "workspace:*",
-    "@types/geojson": "^7946.0.14"
+    "@types/geojson": "^7946.0.15"
   }
 }

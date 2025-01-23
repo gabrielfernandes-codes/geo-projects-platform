@@ -17,8 +17,8 @@
     "migration:run": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.34.8",
-    "drizzle-orm": "^0.36.4",
+    "@sinclair/typebox": "^0.34.14",
+    "drizzle-orm": "^0.37.0",
     "drizzle-typebox": "^0.1.1",
     "pg": "^8.13.1"
   },
@@ -26,9 +26,9 @@
     "@platform/compilers": "workspace:*",
     "@platform/formatters": "workspace:*",
     "@platform/linters": "workspace:*",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.10.9",
     "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.28.1",
-    "prettier": "^3.3.3"
+    "drizzle-kit": "^0.29.1",
+    "prettier": "^3.4.2"
   }
 }

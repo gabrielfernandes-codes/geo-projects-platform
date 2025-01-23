@@ -11,6 +11,6 @@
     "format": "prettier \"./**/*\" --write --ignore-unknown --log-level error"
   },
   "devDependencies": {
-    "prettier": "^3.3.3"
+    "prettier": "^3.4.2"
   }
 }

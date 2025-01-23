@@ -13,9 +13,9 @@
   },
   "devDependencies": {
     "@platform/formatters": "workspace:*",
-    "eslint": "^9.15.0",
+    "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-turbo": "^2.3.1",
+    "eslint-config-turbo": "^2.3.3",
     "eslint-plugin-security": "^3.0.1"
   }
 }
